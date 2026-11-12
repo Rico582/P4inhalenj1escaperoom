@@ -1,1 +1,316 @@
+/* =====================================================
+   Escape Room - stylesheet
+   Gebruikt door: index, room1-3, win en lose
+   ===================================================== */
+
+/* ----- Kleuren (hier kun je het thema aanpassen) ----- */
+:root {
+    --accent: #00e5ff;
+    --achtergrond: #0b1020;
+    --kaart: #151c33;
+    --tekst: #e8ecf8;
+    --subtekst: #9aa6c7;
+    --goed: #4caf50;
+    --fout: #e53935;
+}
+
+/* ----- Basis ----- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--tekst);
+    background: radial-gradient(circle at top, #1d2a55 0%, var(--achtergrond) 70%) fixed;
+}
+
+h1 {
+    margin-top: 0;
+    color: var(--accent);
+}
+
+h2 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+}
+
+/* ----- Kleur per pagina ----- */
+body.start { --accent: #00e5ff; }
+body.room1 { --accent: #00e5ff; }
+body.room2 { --accent: #ffb300; }
+body.room3 { --accent: #69f0ae; }
+body.win   { --accent: #ffd54f; }
+body.lose  {
+    --accent: #ff7043;
+    background: radial-gradient(circle at top, #3b1212 0%, #12060a 75%) fixed;
+}
+
+/* Deze pagina's staan in het midden van het scherm */
+body.start,
+body.win,
+body.lose {
+    justify-content: center;
+}
+
+/* ----- Kaart met de inhoud ----- */
+.kaart {
+    width: 100%;
+    max-width: 700px;
+    padding: 28px;
+    background: var(--kaart);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 4px solid var(--accent);
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+.verhaal {
+    color: var(--subtekst);
+}
+
+/* ----- Bovenbalk met naam, room en timer ----- */
+.topbalk {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.timer {
+    padding: 6px 16px;
+    font-family: "Courier New", monospace;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--accent);
+    background: rgba(0, 0, 0, 0.35);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+}
+
+.timer-bijna {
+    color: var(--fout);
+    border-color: var(--fout);
+    animation: knipper 1s infinite;
+}
+
+@keyframes knipper {
+    50% { opacity: 0.35; }
+}
+
+/* ----- Voortgang en vraag ----- */
+.voortgang {
+    margin: 12px 0;
+    font-size: 1.6rem;
+    letter-spacing: 6px;
+}
+
+.vraag {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.melding {
+    padding: 10px 14px;
+    color: #b9f6ca;
+    background: rgba(76, 175, 80, 0.15);
+    border: 1px solid var(--goed);
+    border-radius: 8px;
+}
+
+.foutmelding {
+    padding: 10px 14px;
+    color: #ffcdd2;
+    background: rgba(229, 57, 53, 0.15);
+    border: 1px solid var(--fout);
+    border-radius: 8px;
+}
+
+/* ----- Antwoordopties (radiobuttons) ----- */
+.optie {
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.optie input {
+    position: absolute;
+    opacity: 0;
+}
+
+.optie span {
+    display: block;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    transition: 0.15s;
+}
+
+.optie:hover span {
+    border-color: var(--accent);
+}
+
+.optie input:checked + span {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent);
+}
+
+.optie input:focus-visible + span {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ----- Hint ----- */
+.hint {
+    margin-top: 18px;
+    color: var(--subtekst);
+}
+
+.hint summary {
+    cursor: pointer;
+}
+
+.hint p {
+    margin: 8px 0 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--accent);
+}
+
+/* ----- Startpagina ----- */
+.regels {
+    padding-left: 0;
+    list-style: none;
+}
+
+.regels li {
+    margin-bottom: 6px;
+}
+
+input[type="text"] {
+    width: 100%;
+    margin: 6px 0 16px;
+    padding: 12px;
+    font-size: 1rem;
+    color: var(--tekst);
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* ----- Knoppen ----- */
+.knop {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0b1020;
+    text-decoration: none;
+    cursor: pointer;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    transition: 0.15s;
+}
+
+.knop:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+}
+
+/* ----- Rood scherm bij een fout antwoord ----- */
+body.fout-scherm {
+    justify-content: center;
+    text-align: center;
+    background: #b71c1c;
+    animation: alarm 0.8s infinite alternate;
+}
+
+@keyframes alarm {
+    from { background: #b71c1c; }
+    to   { background: #e53935; }
+}
+
+.fout-box {
+    max-width: 520px;
+}
+
+.fout-box h1 {
+    font-size: 3rem;
+    color: #fff;
+}
+
+.fout-box .knop {
+    color: #b71c1c;
+    background: #fff;
+}
+
+/* ----- Winpagina ----- */
+.win .kaart,
+.lose .kaart {
+    text-align: center;
+}
+
+.trofee {
+    font-size: 4rem;
+    animation: spring 1s ease infinite alternate;
+}
+
+@keyframes spring {
+    to { transform: translateY(-12px); }
+}
+
+.tijdresultaat {
+    font-size: 1.3rem;
+}
+
+.scoretabel {
+    width: 100%;
+    margin-bottom: 24px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.scoretabel th,
+.scoretabel td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scoretabel th {
+    color: var(--accent);
+}
+
+/* ----- Kleine schermen ----- */
+@media (max-width: 520px) {
+    .topbalk {
+        flex-direction: column;
+    }
+
+    .kaart {
+        padding: 20px;
+    }
+
+    .fout-box h1 {
+        font-size: 2.2rem;
+    }
+}
 
